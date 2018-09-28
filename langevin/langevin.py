@@ -19,9 +19,19 @@ class status:
         self.totalTime = totalTime
         self.mass = mass
 
-class dragForce:
-    def __init__(self):
-        pass
+def dragForce(dampingCoef,velocity):
+    '''
+    This function calculates drage force from given damping coefficient and velocity
+
+    Args:
+        dampingCoef: damping coefficient gamma
+        velocity: velocity at a certain time
+    
+    returns:
+        drag force (frictional force)
+    '''
+
+    return -dampingCoef*velocity
 
 
 
@@ -44,10 +54,10 @@ class langvein:
     def __init__(self):
         pass
 
-def main(initial):
-    xi = randomForceGenerator(initial.temperature,initial.dampingCoef)
+def main(status):
+    xi = randomForceGenerator(status.temperature,status.dampingCoef)
     print('The random force Xi is {}'.format(xi))
-    
+
 
 if __name__ == '__main__':
     testCase = status(2,1,298,1,2,60)
