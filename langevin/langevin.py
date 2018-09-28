@@ -20,16 +20,6 @@ class status:
         self.total_time = total_time
         self.mass = mass
 
-# def createParser():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('--position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
-#     parser.add_argument('--velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
-#     parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
-#     parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
-#     parser.add_argument('--time_step', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
-#     parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
-#     return parser
-
 def dragForce(damping_coefficient,velocity):
     '''
     This function calculates drage force from given damping coefficient and velocity
@@ -80,31 +70,28 @@ def eulerIntegration(initialposition,time_step,total_time,initialVelocity,dampin
         accerlation: the derivative of velocity at time t
         position: the position of particle at time t
     '''
+    #set up the indext of total possible times
     n = int(total_time/time_step+1)
     time = np.linspace(0,total_time,n)
-    #initialize velocity and accerlation
+    #initialize velocity and position
     velocity = np.zeros(n)
-    #accerlation = np.zeros(n)
     position = np.zeros(n)
-    #_position = np.zeros(n)
-    #set initial velocity and accerlation
+    #set initial velocity and position
     velocity[0] = initialVelocity
-    #accerlation[0] = -damping_coefficient*velocity[0] + randomForceGenerator(temperature,damping_coefficient)
     position[0] = initialposition
-    #_position[0] = initialposition
+    #apply euler equation to estimate y(i) from y(i-1)
     for i in range(1,n):
         randomForce = randomForceGenerator(temperature,damping_coefficient)
-        #apply euler equation to estimate y(i) from y(i-1)
-        #equation used is : y_i = dx(f(y_i-1,x_i-1)) + y_i-1
+        #Euler equation used is : y_i = dx(f(y_i-1,x_i-1)) + y_i-1
         velocity[i] = time_step*(dragForce(damping_coefficient,velocity[i-1])+randomForce)+velocity[i-1]
-        #accerlation[i] = -damping_coefficient*velocity[i] + randomForce
         #use equation x = x + dt*v
         position[i] = position[i-1] + time_step*velocity[i-1]
-        #_position[i] = _position[i-1] + velocity[i-1]*time_step+0.5*accerlation[i-1]*time_step**2
-         # check if the particle hits the wall
+        # check if the particle hits the wall
         if not checkWall(position[i]):
             break
-    return time[0:i+1],velocity[0:i+1],position[0:i+1]#,_position
+    #return the time, velocity and postion at each time.
+    #trumed becasue the particle stops when it hits the wall.
+    return time[0:i+1],velocity[0:i+1],position[0:i+1]
 
 
 def checkWall(position):
@@ -121,6 +108,11 @@ def checkWall(position):
         return False
 
 def outPut(time,position,velocity):
+    '''
+    This function writes the output to a new text file with information incluting index, time, velocity and positon
+    '''
+
+    #write output to a new text file named 'langvein_dynamics_output.txt'
     file = open('Langvein_dynamics_output.txt','w+')
     file.write('index  time  position  velocity \n')
     for i in np.arange(0,len(time)):
@@ -128,21 +120,32 @@ def outPut(time,position,velocity):
     file.close()
 
 def main(status):
+    '''
+    main function, only run when directly used
+    '''
+    #run 100 times and collect the time that particle hits the wall
     timeWall = np.zeros(100)
     for i in range(100):
         time,velocity,position = eulerIntegration(status.initial_position,status.time_step,status.total_time,status.initial_velocity,status.damping_coefficient,status.temperature)
         timeWall[i] = time[-1]
+    #write output to new file
     outPut(time,position,velocity)
+    #first figure is the histogram of 100 runs
     plt.figure(0)
-    fig = plt.hist(timeWall,bins=20)
+    plt.hist(timeWall,bins=20)
     plt.title('histogram of 100 runs')
     plt.savefig('histogram.png')
+    #second figure is the trjectory of the postion of particle in one run
     plt.figure(1)
-    fig2 = plt.plot(time,position)
+    plt.plot(time,position)
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
 if __name__ == '__main__':
+
+    #Using parser to take in user in put form termial.
+    #The default command is:
+    #langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1
     parser = argparse.ArgumentParser()
     parser.add_argument('--initial_position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
     parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
