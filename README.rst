@@ -12,7 +12,8 @@ Langevin
 .. image:: https://readthedocs.org/projects/langevin/badge/?version=latest
         :target: https://langevin.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
+.. image:: https://travis-ci.org/tttianhao/langevin.svg?branch=master
+        :target: https://travis-ci.org/tttianhao/langevin
 
 .. image:: https://pyup.io/repos/github/tttianhao/langevin/shield.svg
      :target: https://pyup.io/repos/github/tttianhao/langevin/
