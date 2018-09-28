@@ -2,6 +2,7 @@
 
 """Main module."""
 
+import argparse
 import numpy as np
 import scipy.stats as ss
 import matplotlib.pyplot as plt
@@ -11,13 +12,23 @@ class status:
     '''This class initialize the initial status of the particle'''
 
     def __init__(self,position,velocity, temperature, dampingCoef,timeStep,totalTime,mass=1):
-        self.postion = position
+        self.position = position
         self.velocity = velocity
         self.temperature = temperature
         self.dampingCoef = dampingCoef
         self.timeStep = timeStep
         self.totalTime = totalTime
         self.mass = mass
+
+# def createParser():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
+#     parser.add_argument('--velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
+#     parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
+#     parser.add_argument('--dampingCoef', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
+#     parser.add_argument('--timeStep', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
+#     parser.add_argument('--totalTime', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
+#     return parser
 
 def dragForce(dampingCoef,velocity):
     '''
@@ -110,7 +121,8 @@ def checkWall(position):
         return False
 
 def main(status):
-    time,velocity,accerlation,position = eulerIntegration(status.postion,status.timeStep,status.totalTime,status.velocity,status.dampingCoef,status.temperature)
+
+    time,velocity,accerlation,position = eulerIntegration(status.position,status.timeStep,status.totalTime,status.velocity,status.dampingCoef,status.temperature)
     plt.plot(time,velocity,label='velocity')
     plt.plot(time,accerlation,label='accerlation')
     plt.legend()
@@ -123,5 +135,13 @@ def main(status):
 
 
 if __name__ == '__main__':
-    testCase = status(0,0,300,0.01,0.01,1000)
-    main(testCase)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
+    parser.add_argument('--velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
+    parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
+    parser.add_argument('--dampingCoef', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
+    parser.add_argument('--timeStep', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
+    parser.add_argument('--totalTime', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
+    args = parser.parse_args()
+    print(args.position)
+    main(args)
