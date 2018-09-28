@@ -3,31 +3,23 @@
 language: python
 python:
   - 3.6
-  - 3.5
-  - 3.4
   - 2.7
 
-before_script:
-  - wget http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - export PATH=/home/travis/miniconda/bin:$PATH
-  - conda install --yes numpy=1.8
+install: pip install coveralls
 
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install:
- - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
- - source activate test
- - conda install --yes numpy=$NUMPY scipy=$SCIPY matplotlib pip
- - python setup.py install
 
-# Command to run tests, e.g. python setup.py test
+before_install:
+- pip install coverage
+- pip install numpy
+- pip install matplotlib
+- pip install scipy
+- pip install argparse
+
 script:
- - nosetests
+- coverage run --source=langevin/langevin.py setup.py test
+- coverage report -m 
+after_success: coveralls
 
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
