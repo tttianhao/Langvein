@@ -123,11 +123,24 @@ def main(status):
     '''
     main function, only run when directly used
     '''
+    at = []
+    ap = []
+    av = []
     #run 100 times and collect the time that particle hits the wall
     timeWall = np.zeros(100)
     for i in range(100):
         time,velocity,position = eulerIntegration(status.initial_position,status.time_step,status.total_time,status.initial_velocity,status.damping_coefficient,status.temperature)
         timeWall[i] = time[-1]
+        at.append(time)
+        ap.append(position)
+        av.append(velocity)
+    
+    #choose the longest run
+    maxIndex = np.argmax(timeWall)
+    time = at[maxIndex]
+    position = ap[maxIndex]
+    velocity = av[maxIndex]
+
     #write output to new file
     outPut(time,position,velocity)
     #first figure is the histogram of 100 runs
