@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `langevin` package."""
+"""Tests for ` package."""
 import numpy as np
 import unittest
 import pytest
-import langevin
+from langevin import *
 import scipy.stats as ss
 import random
 
@@ -17,7 +17,7 @@ class Testworkshop(unittest.TestCase):
         '''
         dampingCoef = 0.1
         velocity = 10
-        result = langevin.dragForce(dampingCoef,velocity)
+        result = dragForce(dampingCoef,velocity)
         self.assertEquals(result,-1)
 
 
@@ -31,7 +31,7 @@ class Testworkshop(unittest.TestCase):
         temperature = 298
         dampingCoef = 0.1
         for i in range(5000):
-            randomForce = langevin.randomForceGenerator(temperature,dampingCoef)
+            randomForce = randomForceGenerator(temperature,dampingCoef)
             randomForces.append(randomForce)
         _ , pValue = ss.shapiro(randomForces)
         mean = np.mean(randomForces)
@@ -49,14 +49,14 @@ class Testworkshop(unittest.TestCase):
         '''
         randomPosition = random.random()*5
         if randomPosition != 0:
-            self.assertTrue(langevin.checkWall(randomPosition))
+            self.assertTrue(checkWall(randomPosition))
         randomPosition = random.random()*(-5)
         if randomPosition != 0:
-            self.assertTrue(langevin.checkWall(randomPosition))
-        self.assertFalse(langevin.checkWall(-5))
-        self.assertFalse(langevin.checkWall(5))
-        self.assertFalse(langevin.checkWall(9))
-        self.assertFalse(langevin.checkWall(-10))
+            self.assertTrue(checkWall(randomPosition))
+        self.assertFalse(checkWall(-5))
+        self.assertFalse(checkWall(5))
+        self.assertFalse(checkWall(9))
+        self.assertFalse(checkWall(-10))
 
 if __name__ == '__main__':
     unittest.main()
