@@ -50,15 +50,32 @@ def randomForceGenerator(temperature,dampingCoef,kB =1,delta=1):
     Xi = np.random.normal(mu,sigma)
     return Xi
 
-class langvein:
-    def __init__(self):
-        pass
+def eulerIntegration(timeStep,totalTime,initialVelocity,dampingCoef,temperature):
+    '''
+    This function uses euler method to calculate 
+    '''
+    n = totalTime/timeStep+1
+    time = np.linspace(0,totalTime,n)
+    velocity = np.zeros(n)
+    accerlation = np.zeros(n)
+    velocity[0] = initialVelocity
+    accerlation[0] = dragForce(dampingCoef,velocity[0])+randomForceGenerator(temperature,dampingCoef)
+    for i in range(1,n):
+        randomForce = randomForceGenerator(temperature,dampingCoef)
+        velocity[i] = timeStep*(dragForce(dampingCoef,velocity[i-1])+randomForce)+velocity[i-1]
+        accerlation[i] = dragForce(dampingCoef,velocity[i])+randomForce
+    return time,velocity,accerlation
 
 def main(status):
     xi = randomForceGenerator(status.temperature,status.dampingCoef)
     print('The random force Xi is {}'.format(xi))
+    time,velocity,accerlation = eulerIntegration(status.timeStep,status.totalTime,status.velocity,status.dampingCoef,status.temperature)
+    plt.plot(time,velocity,label='velocity')
+    plt.plot(time,accerlation,label='accerlation')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':
-    testCase = status(2,1,298,1,2,60)
+    testCase = status(2,1,298,0.1,1,100)
     main(testCase)
