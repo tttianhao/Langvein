@@ -148,7 +148,7 @@ if __name__ == '__main__':
     parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
     parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
     parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
-    parser.add_argument('--time_step', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
+    parser.add_argument('--time_step', type = float, default = 0.01, help = 'Time interval of the simulation, default = 0.01' )
     parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
     args = parser.parse_args()
     main(args)
