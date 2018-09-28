@@ -116,7 +116,7 @@ def outPut(time,position,velocity):
     file = open('Langvein_dynamics_output.txt','w+')
     file.write('index  time  position  velocity \n')
     for i in np.arange(0,len(time)):
-        file.write('{}      {}      {:.2f}      {:.2f} \n'.format(i,time[i],position[i],velocity[i]))
+        file.write('{:5.0f}  {:4.2f}  {:8.2f}  {:8.2f} \n'.format(i,time[i],position[i],velocity[i]))
     file.close()
 
 def main(status):
