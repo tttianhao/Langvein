@@ -83,7 +83,8 @@ def eulerIntegration(initialposition,time_step,total_time,initialVelocity,dampin
     for i in range(1,n):
         randomForce = randomForceGenerator(temperature,damping_coefficient)
         #Euler equation used is : y_i = dx(f(y_i-1,x_i-1)) + y_i-1
-        velocity[i] = time_step*(dragForce(damping_coefficient,velocity[i-1])+randomForce)+velocity[i-1]
+        accerlation = dragForce(damping_coefficient,velocity[i-1])+randomForce
+        velocity[i] = time_step*accerlation+velocity[i-1]
         #use equation x = x + dt*v
         position[i] = position[i-1] + time_step*velocity[i-1]
         # check if the particle hits the wall
