@@ -7,11 +7,23 @@ python:
   - 3.4
   - 2.7
 
+before_install:
+ - travis_retry wget http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh -O miniconda.sh
+ - chmod +x miniconda.sh
+ - bash miniconda.sh -b -p $HOME/miniconda
+ - export PATH=/home/travis/miniconda/bin:$PATH
+ - conda update --yes conda
+
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox-travis
+install:
+ - conda create --yes -n test python=$TRAVIS_PYTHON_VERSION
+ - source activate test
+ - conda install --yes numpy=$NUMPY scipy=$SCIPY matplotlib pip
+ - python setup.py install
 
 # Command to run tests, e.g. python setup.py test
-script: tox
+script:
+ - nosetests
 
 # Assuming you have installed the travis-ci CLI tool, after you
 # create the Github repo and add it to Travis, run the
