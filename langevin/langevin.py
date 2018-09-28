@@ -11,13 +11,13 @@ class status:
 
     '''This class initialize the initial status of the particle'''
 
-    def __init__(self,position,velocity, temperature, dampingCoef,timeStep,totalTime,mass=1):
-        self.position = position
-        self.velocity = velocity
+    def __init__(self,initial_position,initial_velocity, temperature, damping_coefficient,time_step,total_time,mass=1):
+        self.initial_position = initial_position
+        self.initial_velocity = initial_velocity
         self.temperature = temperature
-        self.dampingCoef = dampingCoef
-        self.timeStep = timeStep
-        self.totalTime = totalTime
+        self.damping_coefficient = damping_coefficient
+        self.time_step = time_step
+        self.total_time = total_time
         self.mass = mass
 
 # def createParser():
@@ -25,28 +25,28 @@ class status:
 #     parser.add_argument('--position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
 #     parser.add_argument('--velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
 #     parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
-#     parser.add_argument('--dampingCoef', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
-#     parser.add_argument('--timeStep', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
-#     parser.add_argument('--totalTime', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
+#     parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
+#     parser.add_argument('--time_step', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
+#     parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
 #     return parser
 
-def dragForce(dampingCoef,velocity):
+def dragForce(damping_coefficient,velocity):
     '''
     This function calculates drage force from given damping coefficient and velocity
 
     Args:
-        dampingCoef: damping coefficient gamma
+        damping_coefficient: damping coefficient gamma
         velocity: velocity at a certain time
     
     returns:
         drag force (frictional force)
     '''
 
-    return -dampingCoef*velocity
+    return -damping_coefficient*velocity
 
 
 
-def randomForceGenerator(temperature,dampingCoef,kB =1,delta=1):
+def randomForceGenerator(temperature,damping_coefficient,kB =1,delta=1):
 
     '''
     This function generate a random number from a normal distribution, whose mean is zero and variance is determined by 'variance' function.
@@ -56,22 +56,22 @@ def randomForceGenerator(temperature,dampingCoef,kB =1,delta=1):
     '''
 
     mu = 0
-    var = 2*temperature*dampingCoef*kB*delta
+    var = 2*temperature*damping_coefficient*kB*delta
     sigma = np.sqrt(var)
     # draw a random number from a normal distribution with mean=0 and std=sqrt(var)
     Xi = np.random.normal(mu,sigma)
     return Xi
 
-def eulerIntegration(initialposition,timeStep,totalTime,initialVelocity,dampingCoef,temperature):
+def eulerIntegration(initialposition,time_step,total_time,initialVelocity,damping_coefficient,temperature):
     '''
     This function uses euler method to calculate
 
     Args:
         initialpositon: the input position at t=0
-        timeStep: the time interval between two times
-        totalTime: the total runtime of the integration
+        time_step: the time interval between two times
+        total_time: the total runtime of the integration
         initialVelocity: the input velocity at t=0
-        dampingCoef: damping coefficient
+        damping_coefficient: damping coefficient
         temperature: the input temperature
     
     returns:
@@ -80,31 +80,31 @@ def eulerIntegration(initialposition,timeStep,totalTime,initialVelocity,dampingC
         accerlation: the derivative of velocity at time t
         position: the position of particle at time t
     '''
-    n = int(totalTime/timeStep+1)
-    time = np.linspace(0,totalTime,n)
+    n = int(total_time/time_step+1)
+    time = np.linspace(0,total_time,n)
     #initialize velocity and accerlation
     velocity = np.zeros(n)
-    accerlation = np.zeros(n)
+    #accerlation = np.zeros(n)
     position = np.zeros(n)
     #_position = np.zeros(n)
     #set initial velocity and accerlation
     velocity[0] = initialVelocity
-    accerlation[0] = -dampingCoef*velocity[0] + randomForceGenerator(temperature,dampingCoef)
+    #accerlation[0] = -damping_coefficient*velocity[0] + randomForceGenerator(temperature,damping_coefficient)
     position[0] = initialposition
     #_position[0] = initialposition
     for i in range(1,n):
-        randomForce = randomForceGenerator(temperature,dampingCoef)
+        randomForce = randomForceGenerator(temperature,damping_coefficient)
         #apply euler equation to estimate y(i) from y(i-1)
         #equation used is : y_i = dx(f(y_i-1,x_i-1)) + y_i-1
-        velocity[i] = timeStep*(dragForce(dampingCoef,velocity[i-1])+randomForce)+velocity[i-1]
-        accerlation[i] = -dampingCoef*velocity[i] + randomForce
+        velocity[i] = time_step*(dragForce(damping_coefficient,velocity[i-1])+randomForce)+velocity[i-1]
+        #accerlation[i] = -damping_coefficient*velocity[i] + randomForce
         #use equation x = x + dt*v
-        position[i] = position[i-1] + timeStep*velocity[i-1]
-        #_position[i] = _position[i-1] + velocity[i-1]*timeStep+0.5*accerlation[i-1]*timeStep**2
+        position[i] = position[i-1] + time_step*velocity[i-1]
+        #_position[i] = _position[i-1] + velocity[i-1]*time_step+0.5*accerlation[i-1]*time_step**2
          # check if the particle hits the wall
         if not checkWall(position[i]):
             break
-    return time[0:i+1],velocity[0:i+1],accerlation[0:i+1],position[0:i+1]#,_position
+    return time[0:i+1],velocity[0:i+1],position[0:i+1]#,_position
 
 
 def checkWall(position):
@@ -115,33 +115,40 @@ def checkWall(position):
         true if particle in the wall and false if not.
     '''
 
-    if position > -50 and position < 50:
+    if position > -5 and position < 5:
         return True
     else:
         return False
 
+def outPut(time,position,velocity):
+    file = open('Langvein_dynamics_output.txt','w+')
+    file.write('index  time  position  velocity \n')
+    for i in np.arange(0,len(time)):
+        file.write('{}      {}      {:.2f}      {:.2f} \n'.format(i,time[i],position[i],velocity[i]))
+    file.close()
+
 def main(status):
-
-    time,velocity,accerlation,position = eulerIntegration(status.position,status.timeStep,status.totalTime,status.velocity,status.dampingCoef,status.temperature)
-    plt.plot(time,velocity,label='velocity')
-    plt.plot(time,accerlation,label='accerlation')
-    plt.legend()
-    plt.show()
-    plt.plot(time,position,label='position')
-    #plt.plot(time,_position,label='_pos')
-    plt.legend()
-    plt.show()
-    print(time[-1],position[-1],velocity[-1])
-
+    timeWall = np.zeros(100)
+    for i in range(100):
+        time,velocity,position = eulerIntegration(status.initial_position,status.time_step,status.total_time,status.initial_velocity,status.damping_coefficient,status.temperature)
+        timeWall[i] = time[-1]
+    outPut(time,position,velocity)
+    plt.figure(0)
+    fig = plt.hist(timeWall,bins=20)
+    plt.title('histogram of 100 runs')
+    plt.savefig('histogram.png')
+    plt.figure(1)
+    fig2 = plt.plot(time,position)
+    plt.title('trajectory')
+    plt.savefig('trajectory.png')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
-    parser.add_argument('--velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
+    parser.add_argument('--initial_position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
+    parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
     parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
-    parser.add_argument('--dampingCoef', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
-    parser.add_argument('--timeStep', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
-    parser.add_argument('--totalTime', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
+    parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
+    parser.add_argument('--time_step', type = float, default = 0.1, help = 'Time interval of the simulation, default = 0.1' )
+    parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
     args = parser.parse_args()
-    print(args.position)
     main(args)
