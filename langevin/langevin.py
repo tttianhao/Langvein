@@ -120,6 +120,18 @@ def outPut(time,position,velocity):
         file.write('{:5.0f}  {:4.2f}  {:8.2f}  {:8.2f} \n'.format(i,time[i],position[i],velocity[i]))
     file.close()
 
+def figure(timeWall,time,position):
+    #first figure is the histogram of 100 runs
+    plt.figure(0)
+    plt.hist(timeWall,bins=20)
+    plt.title('histogram of 100 runs')
+    plt.savefig('histogram.png')
+    #second figure is the trjectory of the postion of particle in one run
+    plt.figure(1)
+    plt.plot(time,position)
+    plt.title('trajectory')
+    plt.savefig('trajectory.png')
+
 def main(status):
     '''
     main function, only run when directly used
@@ -144,17 +156,8 @@ def main(status):
 
     #write output to new file
     outPut(time,position,velocity)
-    #first figure is the histogram of 100 runs
-    # plt.figure(0)
-    # plt.hist(timeWall,bins=20)
-    # plt.title('histogram of 100 runs')
-    # plt.savefig('histogram.png')
-    # #second figure is the trjectory of the postion of particle in one run
-    # plt.figure(1)
-    # plt.plot(time,position)
-    # plt.title('trajectory')
-    # plt.savefig('trajectory.png')
-
+    figure(timeWall,time,position)
+    
 if __name__ == '__main__':
 
     #Using parser to take in user in put form termial.
