@@ -145,15 +145,15 @@ def main(status):
     #write output to new file
     outPut(time,position,velocity)
     #first figure is the histogram of 100 runs
-    plt.figure(0)
-    plt.hist(timeWall,bins=20)
-    plt.title('histogram of 100 runs')
-    plt.savefig('histogram.png')
-    #second figure is the trjectory of the postion of particle in one run
-    plt.figure(1)
-    plt.plot(time,position)
-    plt.title('trajectory')
-    plt.savefig('trajectory.png')
+    # plt.figure(0)
+    # plt.hist(timeWall,bins=20)
+    # plt.title('histogram of 100 runs')
+    # plt.savefig('histogram.png')
+    # #second figure is the trjectory of the postion of particle in one run
+    # plt.figure(1)
+    # plt.plot(time,position)
+    # plt.title('trajectory')
+    # plt.savefig('trajectory.png')
 
 if __name__ == '__main__':
 
