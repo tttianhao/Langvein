@@ -83,5 +83,15 @@ class Testworkshop(unittest.TestCase):
         self.assertEquals(position[0],initialposition)
         self.assertLessEqual(position[-2],5)
         self.assertLessEqual(-5,position[-2])
+
+    def test_outPut(self):
+        time = np.zeros(5)
+        position = np.zeros(5)
+        velocity = np.zeros(5)
+        outPut(time,position,velocity)
+        with open('Langvein_dynamics_output.txt') as f:
+            first_line = f.readline()
+            self.assertEquals(first_line,'index  time  position  velocity \n')
+
 if __name__ == '__main__':
     unittest.main()
