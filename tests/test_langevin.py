@@ -66,5 +66,22 @@ class Testworkshop(unittest.TestCase):
         self.assertEquals(defaultCase.damping_coefficient,0.1)
         self.assertEquals(defaultCase.time_step,0.1)
         self.assertEquals(defaultCase.total_time,1000)
+
+    def test_euler(self):
+        initialposition = random.random()*5
+        initialVelocity = random.random()*5
+        time_step = random.random()
+        total_time = random.random()*999+1
+        damping_coefficient = random.random()
+        temperature = random.random()*1000
+        time,velocity,position = eulerIntegration(initialposition,time_step,total_time,initialVelocity,damping_coefficient,temperature)
+        self.assertEquals(len(time),len(position))
+        self.assertEquals(len(time),len(velocity))
+        self.assertLessEqual(len(time),int(total_time/time_step+1))
+        self.assertEquals(time[0],0)
+        self.assertEquals(velocity[0],initialVelocity)
+        self.assertEquals(position[0],initialposition)
+        self.assertLessEqual(position[-2],5)
+        self.assertLessEqual(-5,position[-2])
 if __name__ == '__main__':
     unittest.main()
