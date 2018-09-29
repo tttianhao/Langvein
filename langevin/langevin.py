@@ -150,7 +150,7 @@ def getParser():
     args = parser.parse_args()
     return args
 
-def main():
+def main(args = status(0,0,300,0.1,0.1,1000)):
     '''
     main function, only run when directly used
     '''
