@@ -136,17 +136,32 @@ def figure(timeWall,time,position):
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
-def main(status):
+def getParser():
+    #Using parser to take in user in put form termial.
+    #The default command is:
+    #langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--initial_position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
+    parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
+    parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
+    parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
+    parser.add_argument('--time_step', type = float, default = 0.01, help = 'Time interval of the simulation, default = 0.01' )
+    parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
+    args = parser.parse_args()
+    return args
+
+def main():
     '''
     main function, only run when directly used
     '''
+    args = getParser()
     at = []
     ap = []
     av = []
     #run 100 times and collect the time that particle hits the wall
     timeWall = np.zeros(100)
     for i in range(100):
-        time,velocity,position = eulerIntegration(status.initial_position,status.time_step,status.total_time,status.initial_velocity,status.damping_coefficient,status.temperature)
+        time,velocity,position = eulerIntegration(args.initial_position,args.time_step,args.total_time,args.initial_velocity,args.damping_coefficient,args.temperature)
         timeWall[i] = time[-1]
         at.append(time)
         ap.append(position)
@@ -163,16 +178,4 @@ def main(status):
     figure(timeWall,time,position)
     
 if __name__ == '__main__':
-
-    #Using parser to take in user in put form termial.
-    #The default command is:
-    #langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--initial_position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
-    parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
-    parser.add_argument('--temperature', type = float, default = 298, help = 'Temperature of the molecule, default = 298' )
-    parser.add_argument('--damping_coefficient', type = float, default = 0.1, help = 'Damping Coefficient of the molecule, default = 0.1' )
-    parser.add_argument('--time_step', type = float, default = 0.01, help = 'Time interval of the simulation, default = 0.01' )
-    parser.add_argument('--total_time', type = float, default = 1000, help = 'Total time of the simulation, default = 1000' )
-    args = parser.parse_args()
-    main(args)
+    main()
