@@ -57,6 +57,14 @@ class Testworkshop(unittest.TestCase):
         self.assertFalse(checkWall(5))
         self.assertFalse(checkWall(9))
         self.assertFalse(checkWall(-10))
-
+     
+    def test_initialStatus(self):
+        defaultCase = status(0,0,300,0.1,0.1,1000)
+        self.assertEquals(defaultCase.initial_position,0)
+        self.assertEquals(defaultCase.initial_velocity,0)
+        self.assertEquals(defaultCase.temperature,300)
+        self.assertEquals(defaultCase.damping_coefficient,0.1)
+        self.assertEquals(defaultCase.time_step,0.1)
+        self.assertEquals(defaultCase.total_time,1000)
 if __name__ == '__main__':
     unittest.main()
