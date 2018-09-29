@@ -8,7 +8,8 @@ import pytest
 from langevin import status,dragForce,randomForceGenerator,eulerIntegration,checkWall,outPut,main
 import scipy.stats as ss
 import random
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 
 class Testworkshop(unittest.TestCase):
 
