@@ -5,7 +5,7 @@
 import numpy as np
 import unittest
 import pytest
-from langevin import *
+from langevin import status,dragForce,randomForceGenerator,eulerIntegration,checkWall,outPut,main
 import scipy.stats as ss
 import random
 
@@ -92,6 +92,10 @@ class Testworkshop(unittest.TestCase):
         with open('Langvein_dynamics_output.txt') as f:
             first_line = f.readline()
             self.assertEquals(first_line,'index  time  position  velocity \n')
+
+    def test_main(self):
+        defaultCase = status(0,0,300,0.1,0.1,1000)
+        main(defaultCase)
 
 if __name__ == '__main__':
     unittest.main()
