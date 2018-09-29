@@ -31,8 +31,8 @@ def dragForce(damping_coefficient,velocity):
     returns:
         drag force (frictional force)
     '''
-
-    return -damping_coefficient*velocity
+    F = -damping_coefficient*velocity
+    return F
 
 
 
@@ -124,11 +124,15 @@ def figure(timeWall,time,position):
     #first figure is the histogram of 100 runs
     plt.figure(0)
     plt.hist(timeWall,bins=20)
+    plt.xlabel('Time to hit the wall')
+    plt.ylabel('Times')
     plt.title('histogram of 100 runs')
     plt.savefig('histogram.png')
     #second figure is the trjectory of the postion of particle in one run
     plt.figure(1)
     plt.plot(time,position)
+    plt.xlabel('position')
+    plt.plot('time')
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
