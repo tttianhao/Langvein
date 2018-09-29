@@ -17,6 +17,7 @@ before_install:
   - pip install argparse
 
 script: 
+  - matplotlib.use('Agg')
   - coverage run --source=langevin setup.py test
   - coverage report -m
   #- python setup.py install
