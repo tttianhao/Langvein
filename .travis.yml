@@ -16,8 +16,12 @@ before_install:
   - pip install scipy
   - pip install argparse
 
+before_script: # configure a headless display to test plot generation
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3
+
 script: 
-  - matplotlib.use('Agg')
   - coverage run --source=langevin setup.py test
   - coverage report -m
   #- python setup.py install
