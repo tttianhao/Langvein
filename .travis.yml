@@ -7,7 +7,7 @@ python:
 install: 
   - pip install python-coveralls
   - pip install coverage
-  - pip install nose
+  #- pip install nose
 
 before_install:
   - pip install coverage
@@ -17,9 +17,10 @@ before_install:
   - pip install argparse
 
 script: 
-  - coverage run --source=langevin/langevin.py setup.py test
-  - python setup.py install
-  - nosetests --with-coverage
+  - coverage run --source=langevin setup.py test
+  - coverage report -m
+  #- python setup.py install
+  #- nosetests --with-coverage
 
 after_success: 
   - coveralls
