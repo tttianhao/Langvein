@@ -89,6 +89,10 @@ def eulerIntegration(initialposition,time_step,total_time,initialVelocity,dampin
         position[i] = position[i-1] + time_step*velocity[i-1]
         # check if the particle hits the wall
         if not checkWall(position[i]):
+            if position[-1] > 0:
+                position[-1] = 5
+            elif position[-1] < 0:
+                position[-1] = -5
             break
     #return the time, velocity and postion at each time.
     #trumed becasue the particle stops when it hits the wall.
@@ -131,8 +135,11 @@ def figure(timeWall,time,position):
     #second figure is the trjectory of the postion of particle in one run
     plt.figure(1)
     plt.plot(time,position)
+    plt.plot(time[-1],position[-1],'ro')
     plt.ylabel('position')
     plt.xlabel('time')
+    plt.ylim(-5,5)
+    plt.yticks([-5,-4,-3,-2,-1,0,1,2,3,4,5])
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
