@@ -131,8 +131,8 @@ def figure(timeWall,time,position):
     #second figure is the trjectory of the postion of particle in one run
     plt.figure(1)
     plt.plot(time,position)
-    plt.xlabel('position')
-    plt.ylabel('time')
+    plt.ylabel('position')
+    plt.xlabel('time')
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
