@@ -132,7 +132,7 @@ def figure(timeWall,time,position):
     plt.figure(1)
     plt.plot(time,position)
     plt.xlabel('position')
-    plt.plot('time')
+    plt.ylabel('time')
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
