@@ -5,19 +5,10 @@
 import numpy as np
 import unittest
 import pytest
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-from langevin import status,dragForce,randomForceGenerator,eulerIntegration,checkWall,outPut,main
-=======
-import langevin 
->>>>>>> attempt to fix travis
-=======
-import langevin.langevin
->>>>>>> try python 3.5
-=======
 import langevin.langevin as langevin
->>>>>>> yay
+import langevin 
+import langevin.langevin
+import langevin.langevin as langevin
 import scipy.stats as ss
 import random
 import matplotlib
