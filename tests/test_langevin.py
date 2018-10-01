@@ -5,7 +5,7 @@
 import numpy as np
 import unittest
 import pytest
-import langevin.langevin
+import langevin.langevin as langevin
 import scipy.stats as ss
 import random
 import matplotlib
