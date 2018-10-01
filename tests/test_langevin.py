@@ -7,6 +7,7 @@ import unittest
 import pytest
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 from langevin import status,dragForce,randomForceGenerator,eulerIntegration,checkWall,outPut,main
 =======
 import langevin 
@@ -14,6 +15,9 @@ import langevin
 =======
 import langevin.langevin
 >>>>>>> try python 3.5
+=======
+import langevin.langevin as langevin
+>>>>>>> yay
 import scipy.stats as ss
 import random
 import matplotlib
