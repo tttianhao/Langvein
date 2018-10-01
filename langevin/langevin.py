@@ -125,7 +125,13 @@ def outPut(time,position,velocity):
     file.close()
 
 def figure(timeWall,time,position):
-    #first figure is the histogram of 100 runs
+    '''
+    This function takes in three arrays and generate two figures.
+
+    Output: 
+        This function generates a histogram based on the first input timeWall and save the figure as 'histogram'.png
+        This function generates a second plot based on the input position as a function of time and saved as 'trajactory'.png
+    '''
     plt.figure(0)
     plt.hist(timeWall,bins=20)
     plt.xlabel('Time to hit the wall')
@@ -144,9 +150,12 @@ def figure(timeWall,time,position):
     plt.savefig('trajectory.png')
 
 def getParser():
-    #Using parser to take in user in put form termial.
-    #The default command is:
-    #langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1
+    '''
+    Using parser to take in user in put form termial.
+    The default command is:
+    langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1
+    '''
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--initial_position', type = float, default = 0, help = 'Initial position of the particle, default = 0' )
     parser.add_argument('--initial_velocity', type = float, default = 0, help = 'Initial velocity of the particle, default = 0' )
@@ -161,7 +170,9 @@ def main(args = status(0,0,300,0.1,0.1,1000)):
     '''
     main function, only run when directly used
     '''
+    #get user input
     args = getParser()
+    #construct time list, position list and velocity list to hold value for the 100 runs
     at = []
     ap = []
     av = []
