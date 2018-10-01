@@ -2,13 +2,9 @@
 
 language: python
 python:
-<<<<<<< HEAD
-  - 2.7
-=======
->>>>>>> travis fixed for 3.4, 3.5 and 3.6
   - 3.5
-  - 3.4
   - 3.6
+  - 3.4
 
 install: 
   - pip install python-coveralls

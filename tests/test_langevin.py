@@ -5,7 +5,7 @@
 import numpy as np
 import unittest
 import pytest
-from langevin import *
+import langevin.langevin as langevin
 import scipy.stats as ss
 import random
 import matplotlib
@@ -19,7 +19,7 @@ class Testworkshop(unittest.TestCase):
         '''
         dampingCoef = 0.1
         velocity = 10
-        result = dragForce(dampingCoef,velocity)
+        result = langevin.dragForce(dampingCoef,velocity)
         self.assertEquals(result,-1)
 
 
@@ -33,7 +33,7 @@ class Testworkshop(unittest.TestCase):
         temperature = 298
         dampingCoef = 0.1
         for i in range(5000):
-            randomForce = randomForceGenerator(temperature,dampingCoef)
+            randomForce = langevin.randomForceGenerator(temperature,dampingCoef)
             randomForces.append(randomForce)
         _ , pValue = ss.shapiro(randomForces)
         mean = np.mean(randomForces)
@@ -51,17 +51,17 @@ class Testworkshop(unittest.TestCase):
         '''
         randomPosition = random.random()*5
         if randomPosition != 0:
-            self.assertTrue(checkWall(randomPosition))
+            self.assertTrue(langevin.checkWall(randomPosition))
         randomPosition = random.random()*(-5)
         if randomPosition != 0:
-            self.assertTrue(checkWall(randomPosition))
-        self.assertFalse(checkWall(-5))
-        self.assertFalse(checkWall(5))
-        self.assertFalse(checkWall(9))
-        self.assertFalse(checkWall(-10))
+            self.assertTrue(langevin.checkWall(randomPosition))
+        self.assertFalse(langevin.checkWall(-5))
+        self.assertFalse(langevin.checkWall(5))
+        self.assertFalse(langevin.checkWall(9))
+        self.assertFalse(langevin.checkWall(-10))
      
     def test_initialStatus(self):
-        defaultCase = status(0,0,300,0.1,0.1,1000)
+        defaultCase = langevin.status(0,0,300,0.1,0.1,1000)
         self.assertEquals(defaultCase.initial_position,0)
         self.assertEquals(defaultCase.initial_velocity,0)
         self.assertEquals(defaultCase.temperature,300)
@@ -76,7 +76,7 @@ class Testworkshop(unittest.TestCase):
         total_time = random.random()*999+1
         damping_coefficient = random.random()
         temperature = random.random()*1000
-        time,velocity,position = eulerIntegration(initialposition,time_step,total_time,initialVelocity,damping_coefficient,temperature)
+        time,velocity,position = langevin.eulerIntegration(initialposition,time_step,total_time,initialVelocity,damping_coefficient,temperature)
         self.assertEquals(len(time),len(position))
         self.assertEquals(len(time),len(velocity))
         self.assertLessEqual(len(time),int(total_time/time_step+1))
@@ -90,14 +90,14 @@ class Testworkshop(unittest.TestCase):
         time = np.zeros(5)
         position = np.zeros(5)
         velocity = np.zeros(5)
-        outPut(time,position,velocity)
+        langevin.outPut(time,position,velocity)
         with open('Langvein_dynamics_output.txt') as f:
             first_line = f.readline()
             self.assertEquals(first_line,'index  time  position  velocity \n')
 
     def test_main(self):
-        defaultCase = status(0,0,300,0.1,0.1,1000)
-        main(defaultCase)
+        defaultCase = langevin.status(0,0,300,0.1,0.1,1000)
+        langevin.main(defaultCase)
         with open('Langvein_dynamics_output.txt') as f:
             first_line = f.readline()
             self.assertEquals(first_line,'index  time  position  velocity \n')
