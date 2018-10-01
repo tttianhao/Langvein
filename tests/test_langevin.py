@@ -5,7 +5,7 @@
 import numpy as np
 import unittest
 import pytest
-from langevin import status,dragForce,randomForceGenerator,eulerIntegration,checkWall,outPut,main
+from langevin import *
 import scipy.stats as ss
 import random
 import matplotlib
