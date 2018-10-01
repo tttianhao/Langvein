@@ -5,6 +5,8 @@
 import argparse
 import numpy as np
 import scipy.stats as ss
+import matplotlib
+print(matplotlib.__version__)
 import matplotlib.pyplot as plt
 
 class status:
