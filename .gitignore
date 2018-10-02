@@ -100,3 +100,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+trajectory.png
+histogram.png
+Langvein_dynamics_output.txt
+.DS_store
