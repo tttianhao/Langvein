@@ -6,12 +6,10 @@ import numpy as np
 import unittest
 import pytest
 import langevin.langevin as langevin
-import langevin 
-import langevin.langevin
-import langevin.langevin as langevin
 import scipy.stats as ss
 import random
 import matplotlib
+import os
 matplotlib.use('Agg')
 
 class Testworkshop(unittest.TestCase):
@@ -98,9 +96,22 @@ class Testworkshop(unittest.TestCase):
             first_line = f.readline()
             self.assertEquals(first_line,'index  time  position  velocity \n')
 
+    def test_Parser(self):
+        args = langevin.getParser()
+        self.assertEquals(args.initial_position,0)
+        self.assertEquals(args.temperature,298)
+
+    def test_figure(self):
+        timeWall = [0,0,1,2,3,4]
+        time = np.linspace(0,10,11)
+        position = np.linspace(0,10,11)
+        langevin.figure(timeWall,time,position)
+        self.assertTrue(os.path.isfile('histogram.png'))
+        self.assertTrue(os.path.isfile('trajectory.png'))
+
     def test_main(self):
-        defaultCase = langevin.status(0,0,300,0.1,0.1,1000)
-        langevin.main(defaultCase)
+        #defaultCase = langevin.status(0,0,300,0.1,0.1,1000)
+        langevin.main()
         with open('Langvein_dynamics_output.txt') as f:
             first_line = f.readline()
             self.assertEquals(first_line,'index  time  position  velocity \n')
