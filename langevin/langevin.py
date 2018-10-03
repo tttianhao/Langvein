@@ -90,6 +90,10 @@ def eulerIntegration(initialposition,time_step,total_time,initialVelocity,dampin
         # check if the particle hits the wall, the first poisition is at zero so it is skipped
         if i>1:
             if not checkWall(position[i]):
+                if position[i] <= 0:
+                    position[i] = 0
+                elif position[i] >= 0:
+                    position[i] = 5
                 break
     #return the time, velocity and postion at each time.
     #trumed becasue the particle stops when it hits the wall.
@@ -228,6 +232,7 @@ def main():
         #write output to new file
         outPut(time,position,velocity)
         figure(timeWall,time,position)
+        print('Final velocity: {:.2f}, position: {:.2f}'.format(time[-1],position[-1]))
     
 if __name__ == '__main__':
     main()
