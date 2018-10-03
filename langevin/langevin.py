@@ -162,16 +162,16 @@ def checkInput(args):
     if args.initial_position >= 5 or args.initial_position <= -5:
         print('Your input value for initial position is not valid. ')
         return True
-    elif args.temperature <= 0:
+    if args.temperature <= 0:
         print('Your input value for temperature is not valid.')
         return True
-    elif args.damping_coefficient <= 0 :
+    if args.damping_coefficient <= 0 :
         print('Your input value for damping coefficient is not valid.')
         return True
-    elif args.time_step <= 0:
+    if args.time_step <= 0:
         print('Your input value for time step is not valid.')
         return True
-    elif args.total_time <= 0 or args.total_time <= args.time_step:
+    if args.total_time <= 0 or args.total_time <= args.time_step:
         print('Your input value for total time is not valid.')
         return True
     else:
