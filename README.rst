@@ -3,29 +3,24 @@ Langevin
 ========
 
 
-.. image:: https://img.shields.io/pypi/v/langevin.svg
-        :target: https://pypi.python.org/pypi/langevin
-
 .. image:: https://img.shields.io/travis/tttianhao/langevin.svg
         :target: https://travis-ci.org/tttianhao/langevin
 
-.. image:: https://readthedocs.org/projects/langevin/badge/?version=latest
-        :target: https://langevin.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
 
 .. image:: https://coveralls.io/repos/github/tttianhao/langevin/badge.svg?branch=master
         :target: https://coveralls.io/github/tttianhao/langevin?branch=master
 
-.. image:: https://pyup.io/repos/github/tttianhao/langevin/shield.svg
-     :target: https://pyup.io/repos/github/tttianhao/langevin/
-     :alt: Updates
-
 
 
 Langevin Dynamics project for CHE477
+------------------------------------
 
 This project is a Langevin Dynamics simulator that simulates the movment of a particle. 
-This project uses frictional force and random force to calculate acceration of the particle based on the previous time instance.
+This project uses frictional force and random force to calculate acceration of the particle based on the following equation:
+
+.. math:: ma = - \gamma v(t) + \epsilon
+
+The potential energy term in the above equation is assumed to be zero.
 User input including the initial postion, initial velocity, temperature, damping coefficient, time step and total time.
 To install the simulator simply copy and paste the following command line:
 
@@ -36,16 +31,10 @@ To run the simulator simply copy and paste the following command line:
 ``python langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 
 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1``
 
-The input initial_position should be a float from -5 to 5 exculsively 
-and the wall boundary is set to -5 and 5. 
-The initial_velocity,total_time, time_step, damping_coefficient and temperature 
-should be a positive float. 
-
-
-The output files are one txt file with time, position and velocity and two figures.
+Input value of the program should make physical senses. e.g. Temperature should always be a positive number.
+The output files are one text file with time, position and velocity information and two figures.
 
 * Free software: MIT license
-* Documentation: https://langevin.readthedocs.io.
 
 
 Features
