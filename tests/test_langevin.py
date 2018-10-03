@@ -83,8 +83,8 @@ class Testworkshop(unittest.TestCase):
         self.assertEquals(time[0],0)
         self.assertEquals(velocity[0],initialVelocity)
         self.assertEquals(position[0],initialposition)
-        self.assertLessEqual(position[-2],5)
-        self.assertLessEqual(0,position[-2])
+        self.assertLessEqual(position[-1],5)
+        self.assertLessEqual(0,position[-1])
 
     def test_outPut(self):
         '''
