@@ -51,12 +51,8 @@ class Testworkshop(unittest.TestCase):
         unit test for checkwall function with different edge case
         '''
         randomPosition = random.random()*5
-        if randomPosition != 0:
-            self.assertTrue(langevin.checkWall(randomPosition))
-        randomPosition = random.random()*(-5)
-        if randomPosition != 0:
-            self.assertTrue(langevin.checkWall(randomPosition))
-        self.assertFalse(langevin.checkWall(-5))
+        self.assertTrue(langevin.checkWall(randomPosition))
+        self.assertFalse(langevin.checkWall(0))
         self.assertFalse(langevin.checkWall(5))
         self.assertFalse(langevin.checkWall(9))
         self.assertFalse(langevin.checkWall(-10))
@@ -138,6 +134,17 @@ class Testworkshop(unittest.TestCase):
         self.assertTrue(langevin.checkInput(arg4))
         arg5 = langevin.status(0,0,300,0.1,0.1,-10)
         self.assertTrue(langevin.checkInput(arg5))
+
+    def test_secondLargest(self):
+        '''
+        test secondLargest function and assert if the output is desired output
+        '''
+        list1 = [1,5,3,2,43,6,2]
+        self.assertEquals(langevin.secondLargest(list1,43),6)
+        list1 = [1,1,1,1,1,1,1]
+        self.assertEquals(langevin.secondLargest(list1,1),1)
+        list3 = [2,2,2,10]
+        self.assertEquals(langevin.secondLargest(list3,10),2)
 
     def test_main(self):
         '''
