@@ -126,22 +126,18 @@ class Testworkshop(unittest.TestCase):
         unit test for check input function
         '''
         valid = langevin.status(0,0,300,0.1,0.1,1000)
-        args = valid
-        self.assertFalse(langevin.checkInput(args))
-        args.initial_position = 10
-        self.assertTrue(langevin.checkInput(args))
-        args = valid
-        args.temperature = -100
-        self.assertTrue(langevin.checkInput(args))
-        args = valid
-        args.damping_coefficient = -10
-        self.assertTrue(langevin.checkInput(args))
-        args = valid
-        args.total_time = -2
-        self.assertTrue(langevin.checkInput(args))
-        args = valid
-        args.time_step = -10
-        self.assertTrue(langevin.checkInput(args))
+        self.assertFalse(langevin.checkInput(valid))
+
+        arg1 = langevin.status(10,0,300,0.1,0.1,1000)
+        self.assertTrue(langevin.checkInput(arg1))
+        arg2 = langevin.status(0,0,-100,0.1,0.1,1000)
+        self.assertTrue(langevin.checkInput(arg2))
+        arg3 = langevin.status(0,0,-100,-10,0.1,1000)
+        self.assertTrue(langevin.checkInput(arg3))
+        arg4 = langevin.status(0,0,-100,0.1,-10,1000)
+        self.assertTrue(langevin.checkInput(arg4))
+        arg5 = langevin.status(0,0,-100,0.1,0.1,-10)
+        self.assertTrue(langevin.checkInput(arg5))
 
     def test_main(self):
         '''
