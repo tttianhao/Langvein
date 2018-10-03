@@ -129,7 +129,7 @@ class Testworkshop(unittest.TestCase):
         args = valid
         self.assertFalse(langevin.checkInput(args))
         args.initial_position = 10
-        self.assertFalse(langevin.checkInput(args))
+        self.assertTrue(langevin.checkInput(args))
         args = valid
         args.temperature = -100
         self.assertTrue(langevin.checkInput(args))
