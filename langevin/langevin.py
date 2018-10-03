@@ -168,7 +168,7 @@ def checkInput(args):
         false if input is valid
     '''
 
-    if args.initial_position >= 5 or args.initial_position < 0:
+    if args.initial_position > 5 or args.initial_position < 0:
         print('Your input value for initial position is not valid. ')
         return True
     elif args.temperature <= 0:
