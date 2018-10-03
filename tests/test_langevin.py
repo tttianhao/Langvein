@@ -130,13 +130,13 @@ class Testworkshop(unittest.TestCase):
 
         arg1 = langevin.status(10,0,300,0.1,0.1,1000)
         self.assertTrue(langevin.checkInput(arg1))
-        arg2 = langevin.status(0,0,-100,0.1,0.1,1000)
+        arg2 = langevin.status(0,0,-10,0.1,0.1,1000)
         self.assertTrue(langevin.checkInput(arg2))
-        arg3 = langevin.status(0,0,-100,-10,0.1,1000)
+        arg3 = langevin.status(0,0,300,-10,0.1,1000)
         self.assertTrue(langevin.checkInput(arg3))
-        arg4 = langevin.status(0,0,-100,0.1,-10,1000)
+        arg4 = langevin.status(0,0,300,0.1,-10,1000)
         self.assertTrue(langevin.checkInput(arg4))
-        arg5 = langevin.status(0,0,-100,0.1,0.1,-10)
+        arg5 = langevin.status(0,0,300,0.1,0.1,-10)
         self.assertTrue(langevin.checkInput(arg5))
 
     def test_main(self):
