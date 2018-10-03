@@ -121,6 +121,23 @@ class Testworkshop(unittest.TestCase):
         self.assertTrue(os.path.isfile('histogram.png'))
         self.assertTrue(os.path.isfile('trajectory.png'))
 
+    def test_checkInput(self):
+        '''
+        unit test for check input function
+        '''
+        args = langevin.status(0,0,300,0.1,0.1,1000)
+        self.assertFalse(langevin.checkInput(args))
+        args.initial_position = 10
+        self.assertTrue(langevin.checkInput(args))
+        args.temperature = -100
+        self.assertTrue(langevin.checkInput(args))
+        args.damping_coefficient = -10
+        self.assertTrue(langevin.checkInput(args))
+        args.total_time = -2
+        self.assertTrue(langevin.checkInput(args))
+        args.time_step = -10
+        self.assertTrue(langevin.checkInput(args))
+
     def test_main(self):
         '''
         test main function and assert a file is createdß
