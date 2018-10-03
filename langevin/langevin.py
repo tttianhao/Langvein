@@ -150,39 +150,58 @@ def getParser():
     args = parser.parse_args()
     return args
 
+def checkInput(args):
+    '''
+    This function assert the user input and check if the input is valid
+
+    returns:
+        true if input is ont valid
+        false if input is valid
+    '''
+
+    if args.initial_position >= 5 or args.initial_position <= -5:
+        print('Your input value for initial position is not valid. ')
+        return True
+    elif args.temperature <= 0:
+        print('Your input value for temperature is not valid.')
+        return True
+    elif args.damping_coefficient <= 0 :
+        print('Your input value for damping coefficient is not valid.')
+        return True
+    elif args.time_step <= 0:
+        print('Your input value for time step is not valid.')
+        return True
+    elif args.total_time <= 0 or args.total_time <= args.time_step:
+        print('Your input value for total time is not valid.')
+        return True
+    else:
+        return False 
+
 def main():
     '''
     main function, only run when directly used
     '''
     args = getParser()
-    if args.initial_position >= 5 or args.initial_position <= -5:
-        print('Your input value for initial position is not valid. To see help: $ python langevin/langevin.py -h')
-    elif args.temperature <= 0:
-        print('Your input value for temperature is not valid. To see help: $ python langevin/langevin.py -h')
-    elif args.damping_coefficient <= 0 :
-        print('Your input value for damping coefficient is not valid. To see help: $ python langevin/langevin.py -h')
-    elif args.time_step <= 0:
-        print('Your input value for time step is not valid. To see help: $ python langevin/langevin.py -h')
-    elif args.total_time <= 0 or args.total_time <= args.time_step:
-        print('Your input value for total time is not valid. To see help: $ python langevin/langevin.py -h') 
+    if checkInput(args):
+        print('To see help: $ python langevin/langevin.py -h')
     else:
-        at = []
-        ap = []
-        av = []
+        allTime = []
+        allPosition = []
+        allVelocity = []
         #run 100 times and collect the time that particle hits the wall
         timeWall = np.zeros(100)
         for i in range(100):
             time,velocity,position = eulerIntegration(args.initial_position,args.time_step,args.total_time,args.initial_velocity,args.damping_coefficient,args.temperature)
             timeWall[i] = time[-1]
-            at.append(time)
-            ap.append(position)
-            av.append(velocity)
+            allTime.append(time)
+            allPosition.append(position)
+            allVelocity.append(velocity)
         
         #choose the longest run
         maxIndex = np.argmax(timeWall)
-        time = at[maxIndex]
-        position = ap[maxIndex]
-        velocity = av[maxIndex]
+        time = allTime[maxIndex]
+        position = allPosition[maxIndex]
+        velocity = allVelocity[maxIndex]
 
         #write output to new file
         outPut(time,position,velocity)
