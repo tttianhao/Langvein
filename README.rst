@@ -12,19 +12,26 @@ Langevin
 
 
 
-Langevin Dynamics project for CHE477
-------------------------------------
+Overview
+--------
 
 This project is a Langevin Dynamics simulator that simulates the movment of a particle. 
 This project uses frictional force and random force to calculate acceration of the particle based on the following equation:
 
-.. math:: ma = - \gamma v(t) + \epsilon
+.. math:: `ma = - \gamma v(t) + \epsilon`
 
 The potential energy term in the above equation is assumed to be zero.
 User input including the initial postion, initial velocity, temperature, damping coefficient, time step and total time.
+
+Installation
+------------
+
 To install the simulator simply copy and paste the following command line:
 
 ``git clone https://github.com/tttianhao/langevin.git``
+
+Usage
+-----
 
 To run the simulator simply copy and paste the following command line:
 
