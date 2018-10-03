@@ -87,9 +87,10 @@ def eulerIntegration(initialposition,time_step,total_time,initialVelocity,dampin
         velocity[i] = time_step*accerlation+velocity[i-1]
         #use equation x = x + dt*v
         position[i] = position[i-1] + time_step*velocity[i-1]
-        # check if the particle hits the wall
-        if not checkWall(position[i]):
-            break
+        # check if the particle hits the wall, the first poisition is at zero so it is skipped
+        if i>1:
+            if not checkWall(position[i]):
+                break
     #return the time, velocity and postion at each time.
     #trumed becasue the particle stops when it hits the wall.
     return time[0:i+1],velocity[0:i+1],position[0:i+1]
@@ -103,7 +104,7 @@ def checkWall(position):
         true if particle in the wall and false if not.
     '''
 
-    if position > -5 and position < 5:
+    if position > 0 and position < 5:
         return True
     else:
         return False
@@ -131,8 +132,12 @@ def figure(timeWall,time,position):
     #second figure is the trjectory of the postion of particle in one run
     plt.figure(1)
     plt.plot(time,position)
+    plt.plot(time[-1],position[-1],'ro')
+    plt.ylim(0,5)
+    plt.xlim(0,time[-1]*1.05)
+    plt.yticks([0,1,2,3,4,5])
     plt.ylabel('position')
-    plt.xlabel('time')
+    plt.xlabel('time (s)')
     plt.title('trajectory')
     plt.savefig('trajectory.png')
 
@@ -159,7 +164,7 @@ def checkInput(args):
         false if input is valid
     '''
 
-    if args.initial_position >= 5 or args.initial_position <= -5:
+    if args.initial_position >= 5 or args.initial_position < 0:
         print('Your input value for initial position is not valid. ')
         return True
     elif args.temperature <= 0:
@@ -177,6 +182,22 @@ def checkInput(args):
     else:
         return False 
 
+def secondLargest(alist,maxValue):
+    '''
+    This function takes in a list and return the value of second largest element in the list
+
+    returns:
+        the second largest element in a list
+        if all elements in the list is equal, return that element
+    '''
+
+    alist = sorted(alist,reverse=True)
+    for i in alist:
+        if i != maxValue:
+            return i
+    return i
+
+
 def main():
     '''
     main function, only run when directly used
@@ -189,16 +210,17 @@ def main():
         allPosition = []
         allVelocity = []
         #run 100 times and collect the time that particle hits the wall
-        timeWall = np.zeros(100)
+        timeWall = []
         for i in range(100):
             time,velocity,position = eulerIntegration(args.initial_position,args.time_step,args.total_time,args.initial_velocity,args.damping_coefficient,args.temperature)
-            timeWall[i] = time[-1]
+            timeWall.append(time[-1])
             allTime.append(time)
             allPosition.append(position)
             allVelocity.append(velocity)
         
-        #choose the longest run
-        maxIndex = np.argmax(timeWall)
+        #choose the longest run which hits the wall. No particular reason, just for aesthetic purpose, otherwise most of the time the trajatory looks so ugly.
+        maxValue = secondLargest(timeWall,args.total_time)
+        maxIndex = timeWall.index(maxValue)
         time = allTime[maxIndex]
         position = allPosition[maxIndex]
         velocity = allVelocity[maxIndex]
