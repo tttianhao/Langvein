@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for ` package."""
+"""Tests for langevin package."""
 import numpy as np
 import unittest
 import pytest
@@ -71,6 +71,9 @@ class Testworkshop(unittest.TestCase):
         self.assertEquals(defaultCase.total_time,1000)
 
     def test_euler(self):
+        '''
+        test for euler integration output is valid array with reasonable position, time and velocity
+        '''
         initialposition = random.random()*5
         initialVelocity = random.random()*5
         time_step = random.random()
@@ -88,6 +91,9 @@ class Testworkshop(unittest.TestCase):
         self.assertLessEqual(-5,position[-2])
 
     def test_outPut(self):
+        '''
+        test output function and assert if a text file is being created
+        '''
         time = np.zeros(5)
         position = np.zeros(5)
         velocity = np.zeros(5)
@@ -97,11 +103,17 @@ class Testworkshop(unittest.TestCase):
             self.assertEquals(first_line,'index  time  position  velocity \n')
 
     def test_Parser(self):
+        '''
+        test parser function and assert if a value can be passed in
+        '''
         args = langevin.getParser()
         self.assertEquals(args.initial_position,0)
         self.assertEquals(args.temperature,298)
 
     def test_figure(self):
+        '''
+        test figure function and assert if figures are being created
+        '''
         timeWall = [0,0,1,2,3,4]
         time = np.linspace(0,10,11)
         position = np.linspace(0,10,11)
@@ -110,6 +122,9 @@ class Testworkshop(unittest.TestCase):
         self.assertTrue(os.path.isfile('trajectory.png'))
 
     def test_main(self):
+        '''
+        test main function and assert a file is createdß
+        '''
         #defaultCase = langevin.status(0,0,300,0.1,0.1,1000)
         langevin.main()
         with open('Langvein_dynamics_output.txt') as f:
