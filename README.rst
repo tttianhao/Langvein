@@ -27,9 +27,20 @@ Langevin Dynamics project for CHE477
 This project is a Langevin Dynamics simulator that simulates the movment of a particle. 
 This project uses frictional force and random force to calculate acceration of the particle based on the previous time instance.
 User input including the initial postion, initial velocity, temperature, damping coefficient, time step and total time.
-To run this simulator, please use the following command:
+To install the simulator simply copy and paste the following command line:
 
-`python langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1`
+``git clone https://github.com/tttianhao/langevin.git``
+
+To run the simulator simply copy and paste the following command line:
+
+``python langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 
+--total_time 1000 --time_step 0.01 --damping_coefficient 0.1``
+
+The input initial_position should be a float from -5 to 5 exculsively 
+and the wall boundary is set to -5 and 5. 
+The initial_velocity,total_time, time_step, damping_coefficient and temperature 
+should be a positive float. 
+
 
 The output files are one txt file with time, position and velocity and two figures.
 
