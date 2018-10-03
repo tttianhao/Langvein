@@ -15,13 +15,11 @@ Langevin
 Overview
 --------
 
-This project is a Langevin Dynamics simulator that simulates the movment of a particle. 
-This project uses frictional force and random force to calculate acceration of the particle based on the following equation:
-
-.. math:: `ma = - \gamma v(t) + \epsilon`
-
-The potential energy term in the above equation is assumed to be zero.
-User input including the initial postion, initial velocity, temperature, damping coefficient, time step and total time.
+This project is a Langevin Dynamics simulator that simulates the movment of a particle in 1 dimension. 
+This project uses frictional force and random force to calculate acceration of the particle. 
+This simulator uses Euler's integration to simulate the position and velocity of the particle from the previous instance.
+The potential energy in this program is assumed to be zero.
+User input includes the initial postion, initial velocity, temperature, damping coefficient, time step and total time.
 
 Installation
 ------------
@@ -33,7 +31,7 @@ To install the simulator simply copy and paste the following command line:
 Usage
 -----
 
-To run the simulator simply copy and paste the following command line:
+To run the simulator simply copy and paste the following command line in the project directory:
 
 ``python langevin/langevin.py --initial_position 0 --initial_velocity 0 --temperature 300 
 --total_time 1000 --time_step 0.01 --damping_coefficient 0.1``
